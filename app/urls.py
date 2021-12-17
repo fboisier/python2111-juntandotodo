@@ -6,4 +6,6 @@ urlpatterns = [
     path('camion/add', views.addCamion),
     path('ruta/add', views.addRuta),
     path('prueba', views.prueba),
+    path('camion/edit/<int:id>', views.camion_formulario),
+    path('camion/eliminar/<int:id>', views.camion_eliminar)
 ]

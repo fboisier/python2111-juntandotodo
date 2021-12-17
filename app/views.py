@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import redirect, render
 from app.models import Camion, Ruta
 from django.contrib import messages
@@ -64,4 +65,40 @@ def prueba(request):
     messages.info(request,"MENSAJE DE INFORMACION (info)")
     messages.warning(request,"MENSAJE DE ADVERTENCIA (warning)")
     
+    return redirect('/')
+
+
+def camion_formulario(request, id):
+    if request.method == 'POST':
+        errors = Camion.objects.validar(request.POST)
+        
+        if len(errors) > 0:
+            
+            for key, value in errors.items():
+                messages.error(request, value)
+            
+            return redirect(f'/camion/edit/{id}')
+        else:    
+            print(request.POST)
+            camion = Camion.objects.get(id=id)
+            camion.nombre = request.POST['nombre']
+            camion.marca = request.POST['marca']
+            camion.tonelaje = request.POST['tonelaje']
+            camion.save()
+            
+            messages.success(request,"El camion fue editado correctamente.")
+            return redirect('/')
+    else:
+        camion = Camion.objects.get(id=id)
+        
+        contexto = {
+            "camion" : camion
+        }
+        
+        return render(request, "app/formulario_edit.html", contexto)
+    
+def camion_eliminar(request, id):
+    camion = Camion.objects.get(id=id)
+    camion.delete()
+    messages.success(request,"El camion fue eliminado correctamente.")
     return redirect('/')

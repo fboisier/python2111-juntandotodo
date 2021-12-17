@@ -119,6 +119,7 @@
                 <th>CREADO</th>
                 <th>ACTUALIZADO</th>
                 <th>RUTAS</th>
+                <th>ACCIONES</th>
             </tr>
 
             {% for camion in listaCamiones %}
@@ -136,6 +137,11 @@
                         <li>Desde {{ruta.origen}} a {{ruta.destino}} KMS: {{ruta.kilometros}}</li>
                         {% endfor %}
                     </ul>
+                </td>
+
+                <td style="width:200px">
+                    <a class="btn btn-sm btn-info" href="/camion/edit/{{camion.id}}">EDITAR</a>
+                    <a class="btn btn-sm btn-danger" href="/camion/eliminar/{{camion.id}}">ELIMINAR</a>
                 </td>
             </tr>
 
